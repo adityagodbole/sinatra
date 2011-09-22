@@ -1235,6 +1235,7 @@ module Sinatra
         handler.run self, :Host => bind, :Port => port do |server|
           [:INT, :TERM].each { |sig| trap(sig) { quit!(server, handler_name) } }
           set :running, true
+          set :port, server.config[:Port] if server.respond_to? :config
         end
       rescue Errno::EADDRINUSE => e
         STDERR.puts "== Someone is already performing on port #{port}!"
